@@ -95,10 +95,13 @@
 
     header.style.display = 'block';
 
-    const headerContent = /** @type {HTMLElement} */ (header.firstElementChild);
-    headerContent.style.transition = 'height 0.25s ease-in-out 0s';
-    headerContent.style.overflow = 'hidden';
-    headerContent.style.setProperty('height', '0px', 'important');
+    for (const child of header.children) {
+      if (child instanceof HTMLElement) {
+        child.style.transition = 'height 0.25s ease-in-out 0s';
+        child.style.overflow = 'hidden';
+        child.style.setProperty('height', '0px', 'important');
+      }
+    }
 
     loadStyle('https://store.fastly.steamstatic.com/public/css/applications/store/greenenvelope.css');
 
@@ -114,14 +117,26 @@
 
     showButton.addEventListener('click', () => {
       if (headerShown) {
-        headerContent.style.overflow = 'hidden';
-        headerContent.style.setProperty('height', '0px', 'important');
+        for (const child of header.children) {
+          if (child instanceof HTMLElement) {
+            child.style.overflow = 'hidden';
+            child.style.setProperty('height', '0px', 'important');
+          }
+        }
         showButton.textContent = 'Show Header';
       } else {
-        headerContent.style.removeProperty('height');
+        for (const child of header.children) {
+          if (child instanceof HTMLElement) {
+            child.style.removeProperty('height');
+          }
+        }
         showButton.textContent = 'Hide Header';
         setTimeout(() => {
-          headerContent.style.removeProperty('overflow');
+          for (const child of header.children) {
+            if (child instanceof HTMLElement) {
+              child.style.removeProperty('overflow');
+            }
+          }
         }, 250);
       }
       headerShown = !headerShown;
